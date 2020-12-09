@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %} Romanos {% endblock %}
+
+{% block mi_precioso_bloque_de_formato %}
+    <h1 id="h1null">Ingresos mensuales </h1> 
+    <p id="pnull">No existe ningún registro</p><br>
+    <a href="{{ url_for('nuevoIngreso') }}">Añadir nuevo registro</a><br>
+{% endblock %}

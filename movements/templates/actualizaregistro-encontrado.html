@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Actualizar Registro {% endblock %}
+
+{% block mi_precioso_bloque_de_formato %}
+    <h1>Actualizar Registro</h1>
+    
+    <form action="{{ url_for('actualizar') }}" method="POST">
+        <label for="date">Fecha</label><br><br>
+        <input type="date" name="date" required value= {{ fecha }}><br><br>
+        <label for="concept">Concepto</label><br><br>
+        <input type="text" name="concept" value={{ concepto }} required readonly><br><br>
+        <label for="money">Dinero/Guita</label><br><br>
+        <input type="number" name="money" step="any" required value={{ dinero }}><br><br>
+        
+        <input type="submit" value="Enviar" class="b">
+        <a href="{{ url_for('listaIngresos') }}">Volver</a>
+    </form>
+{% endblock %}
