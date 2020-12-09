@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %} Borrar Registro {% endblock %}
+
+{% block mi_precioso_bloque_de_formato %}
+    <h1>Borrar Registro</h1>
+    
+    <form action="{{ url_for('borrar') }}" method="POST">
+        <label for="date">Fecha</label><br><br>
+        <input type="date" name="date" required value= {{ fecha }} readonly><br><br>
+        <label for="concept">Concepto</label><br><br>
+        <input type="text" name="concept" value={{ concepto }} required readonly><br><br>
+        <label for="money">Dinero/Guita</label><br><br>
+        <input type="number" name="money" step="any" required value={{ dinero }} readonly><br><br>
+        <p id="pnull">Se va a proceder a borrar este registro</p><br>
+        <input type="submit" value="Borrar" class="b">
+        <a href="{{ url_for('buscar', tipo_busqueda='Borrar') }}">Atras</a>
+        <a href="{{ url_for('listaIngresos') }}">Inicio</a>
+    </form>
+{% endblock %}

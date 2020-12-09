@@ -14,6 +14,7 @@
         <input type="number" name="money" step="any" required value={{ dinero }}><br><br>
         
         <input type="submit" value="Enviar" class="b">
-        <a href="{{ url_for('listaIngresos') }}">Volver</a>
+        <a href="{{ url_for('buscar', tipo_busqueda='Actualizar') }}">Atras</a>
+        <a href="{{ url_for('listaIngresos') }}">Inicio</a>
     </form>
 {% endblock %}

@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %} Actualizar Registro {% endblock %}
+{% block title %} {{ tipo_busqueda }} Registro {% endblock %}
 
 {% block mi_precioso_bloque_de_formato %}
-    <h1>Actualizar Registro</h1>
-    <p>Introduzca el nombre del concepto del registro a actualizar</p>
-    <form action="{{ url_for('buscar') }}" method="POST">
+    <h1>{{ tipo_busqueda }} Registro</h1>
+    <p>Introduzca el nombre del concepto del registro a {{ tipo_busqueda.lower() }}</p>
+    <form action="{{ url_for('buscar', tipo_busqueda=tipo_busqueda) }}" method="POST">
         <label for="concept">Concepto</label><br><br>
         <input type="text" name="concept" required><br><br>
-        
+        {% if not encontrado %}
+        <p id="pnull">No existe ningún registro con el concepto {{ concepto }}</p><br>
+        {% endif %}
         <input type="submit" value="Enviar" class="b">
-        <a href="{{ url_for('listaIngresos') }}">Volver</a>
+        <a href="{{ url_for('listaIngresos') }}">Inicio</a>
     </form>
 {% endblock %}

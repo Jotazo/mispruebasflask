@@ -11,9 +11,6 @@ def listaIngresos():
         ingresos = list(csvReader)
         fichero.close()
         
-        if not ingresos:
-            return render_template('movementsListNull.html')
-
         total = 0
         for ingreso in ingresos:
             total += float(ingreso[2])
@@ -37,11 +34,9 @@ def nuevoIngreso():
 
     return render_template('creaalta.html')
 
-@app.route('/buscaregistro', methods=['GET', 'POST'])
-def buscar():
-    if request.method == 'GET':
-        return render_template('buscaregistro.html')
-    else:
+@app.route('/buscaregistro/<tipo_busqueda>', methods=['GET', 'POST'])
+def buscar(tipo_busqueda):
+    if request.method == 'POST':
         fecha = ''
         concepto = request.form.get('concept')
         dinero = ''
@@ -57,10 +52,16 @@ def buscar():
                     dinero = registro[2]
                     registroEncontrado = True
 
-            if not registroEncontrado:
-                return render_template('actualizaregistro-noencontrado.html', concepto=concepto)
+            if not registroEncontrado:       
+                return render_template('buscaregistro.html', encontrado=registroEncontrado, concepto=concepto, tipo_busqueda=tipo_busqueda)
             else:
-                return render_template('actualizaregistro-encontrado.html', fecha=fecha, concepto=concepto, dinero=dinero)
+                if tipo_busqueda == 'Actualizar':
+                    return render_template('actualizaregistro.html', fecha=fecha, concepto=concepto, dinero=dinero)
+                elif tipo_busqueda == 'Borrar':
+                    return render_template('borraregistro.html', fecha=fecha, concepto=concepto, dinero=dinero)
+
+    registroEncontrado = True
+    return render_template('buscaregistro.html', tipo_busqueda=tipo_busqueda, encontrado = registroEncontrado)
 
 @app.route('/actualizaregistro', methods=['POST'])
 def actualizar():
@@ -88,6 +89,33 @@ def actualizar():
         fichero.close()
 
     return redirect('/')
+
+@app.route('/borraregistro', methods=['POST'])
+def borrar():
+
+    with open('movements/data/basededatos.csv', 'r') as fichero:
+        csvReader = csv.reader(fichero, delimiter=',', quotechar='"')
+        registros = list(csvReader)
+        fichero.close()
+
+    nuevaFecha = request.form.get('date')
+    concepto = request.form.get('concept')
+    nuevoDinero = request.form.get('money')
+    registroActualizado = []
+
+    for registro in registros:
+        if registro[1] != concepto:
+            registroActualizado.append(registro)
+            
+    with open('movements/data/basededatos.csv', 'w', newline='') as fichero:
+        csvWriter = csv.writer(fichero, delimiter=',', quotechar='"')
+        print(registroActualizado)
+        csvWriter.writerows(registroActualizado)
+        
+        fichero.close()
+
+    return redirect('/')
+
         
 
             

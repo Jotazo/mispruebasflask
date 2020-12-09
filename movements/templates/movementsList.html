@@ -3,26 +3,31 @@
 {% block title %} Romanos {% endblock %}
 
 {% block mi_precioso_bloque_de_formato %}
-    
-    <table>
-        <caption> Ingresos mensuales </caption>
-        <tr>
-            <th>Fecha</th>
-            <th>Concepto</th>
-            <th>Importe/Guita</th>
-        </tr>
-    {% for registro in datos %}
-        <tr>
-            <td>{{ registro[0] }}</td>
-            <td>{{ registro[1] }}</td>
-            <td>{{ registro[2] }}€</td>           
-        </tr>
-    {% endfor %}
-        <tr>
-            <td colspan="3">Total: {{total}}€</td>
-        </tr>
-    </table><br><br>
-    <a href="{{ url_for('nuevoIngreso') }}">Nuevo registro</a>
-    <a href="{{ url_for('buscar') }}">Actualizar registro</a>
-    <a href="{{ url_for('buscar') }}">Borrar registro</a>
+    {% if not datos %}
+        <h1 id="h1null">Ingresos mensuales </h1> 
+        <p id="pnull">No existe ningún registro</p><br>
+        <a href="{{ url_for('nuevoIngreso') }}">Añadir nuevo registro</a><br>
+    {% else %}
+        <table>
+            <caption> Ingresos mensuales </caption>
+            <tr>
+                <th>Fecha</th>
+                <th>Concepto</th>
+                <th>Importe/Guita</th>
+            </tr>
+        {% for registro in datos %}
+            <tr>
+                <td>{{ registro[0] }}</td>
+                <td>{{ registro[1] }}</td>
+                <td>{{ registro[2] }}€</td>           
+            </tr>
+        {% endfor %}
+            <tr>
+                <td colspan="3">Total: {{total}}€</td>
+            </tr>
+        </table><br><br>
+        <a href="{{ url_for('nuevoIngreso') }}">Nuevo registro</a>
+        <a href="{{ url_for('buscar', tipo_busqueda='Actualizar') }}">Actualizar registro</a>
+        <a href="{{ url_for('buscar', tipo_busqueda='Borrar') }}">Borrar registro</a>
+    {% endif %}
 {% endblock %}
